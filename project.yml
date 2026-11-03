@@ -1,0 +1,77 @@
+# XcodeGen spec for Liaison for macOS. The .xcodeproj is generated from this file and is NOT in git:
+# two people (or agents) editing a .pbxproj produce conflicts nobody can resolve by reading.
+#   brew install xcodegen && xcodegen generate && open Liaison.xcodeproj
+# Portfolio extract: Resources/Fonts (Inter, Newsreader, Nunito; SIL OFL) and most of the asset catalog are not
+# included, and signing is per machine (DEVELOPMENT_TEAM in Config/Local.xcconfig, not committed).
+name: Liaison
+options:
+  bundleIdPrefix: com.liaisone
+  deploymentTarget:
+    macOS: "14.0"   # WKWebsiteDataStore(forIdentifier:) for the browser's own profile
+  createIntermediateGroups: true
+packages:
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    from: "2.6.4"
+configFiles:
+  Debug: Config/Shared.xcconfig
+  Release: Config/Shared.xcconfig
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    CODE_SIGN_STYLE: Automatic
+    ENABLE_HARDENED_RUNTIME: YES   # required for notarization
+    DEAD_CODE_STRIPPING: YES
+targets:
+  Liaison:
+    type: application
+    platform: macOS
+    sources:
+      - path: App
+      - path: Shared
+      - path: Resources/Assets.xcassets
+    dependencies:
+      - package: Sparkle
+    settings:
+      base:
+        PRODUCT_NAME: Liaison
+        PRODUCT_BUNDLE_IDENTIFIER: com.liaisone.mac   # Separate from iOS com.liaisone.app
+        GENERATE_INFOPLIST_FILE: YES
+        # camera / microphone under the hardened runtime; build-local.sh sets LIA_ENTITLEMENTS and LIA_PROFILE when a
+        # Developer ID profile is found (Sign in with Apple, App Group...). Variables, not command-line overrides of
+        # CODE_SIGN_ENTITLEMENTS / PROVISIONING_PROFILE_SPECIFIER, which would also land on Sparkle's targets.
+        LIA_URL_SCHEME: liaison   # build-local.sh: liaison-dev for a plain build (sign-in comes back to Liaison Dev)
+        LIA_ENTITLEMENTS: Config/Liaison.entitlements
+        CODE_SIGN_ENTITLEMENTS: $(LIA_ENTITLEMENTS)
+        LIA_PROFILE: ""
+        PROVISIONING_PROFILE_SPECIFIER: $(LIA_PROFILE)
+        INFOPLIST_FILE: Config/Info.plist   # merged with the generated keys: Sparkle's feed and public key
+        INFOPLIST_KEY_CFBundleDisplayName: Liaison
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon   # the blue Liaison mark on the macOS squircle (the app keeps the company logo; the cloud is marketing)
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.business
+        INFOPLIST_KEY_NSHumanReadableCopyright: "Egor Dolgushin"
+        INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
+        MACOSX_DEPLOYMENT_TARGET: "14.0"
+  LiaisonTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources: [Tests]
+    dependencies:
+      - target: Liaison
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.liaisone.mac.tests
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Liaison.app/Contents/MacOS/Liaison"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+schemes:
+  Liaison:
+    build:
+      targets:
+        Liaison: all
+        LiaisonTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets: [LiaisonTests]

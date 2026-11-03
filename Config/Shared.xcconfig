@@ -1,0 +1,18 @@
+// Committed build settings. Per-machine values (DEVELOPMENT_TEAM) live in Local.xcconfig, gitignored.
+MARKETING_VERSION = 0.2.14
+CURRENT_PROJECT_VERSION = 1
+
+// Updates (Sparkle). Empty in dev builds: no feed, no update checks. The release workflow sets both.
+LIA_SPARKLE_FEED =
+LIA_SPARKLE_PUBLIC_KEY =
+
+// 0.2.11 translation: Translation.framework exists from macOS 14.4 and the app runs on 14.0, so it is weak-linked
+// (every use is behind #available) instead of auto-linked, which would stop the app launching on 14.0-14.3.
+// The SwiftUI modifiers (.translationPresentation, .translationTask) come from the cross-import overlay
+// _Translation_SwiftUI, a framework of its own that the compiler would auto-link as a hard dependency too, so it is
+// treated the same way. Linker flags go to the linker (OTHER_LDFLAGS); the autolink switch is a compiler flag
+// (OTHER_SWIFT_FLAGS). scripts/build-local.sh checks the built binary: no non-weak Translation load.
+OTHER_LDFLAGS = $(inherited) -weak_framework Translation -weak_framework _Translation_SwiftUI
+OTHER_SWIFT_FLAGS = $(inherited) -Xfrontend -disable-autolink-framework -Xfrontend Translation -Xfrontend -disable-autolink-framework -Xfrontend _Translation_SwiftUI
+
+#include? "Local.xcconfig"

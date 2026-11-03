@@ -1,0 +1,23 @@
+# Xcode / XcodeGen
+*.xcodeproj/
+*.xcworkspace/
+xcuserdata/
+DerivedData/
+build/
+build-local.log
+Config/Local.xcconfig
+
+# Signing material and secrets - never committed
+*.p12
+*.p8
+*.cer
+*.mobileprovision
+*.provisionprofile
+.lia_env
+.env*
+
+# Swift / tooling
+.build/
+.swiftpm/
+.DS_Store
+__pycache__/

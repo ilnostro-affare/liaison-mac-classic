@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Websites you open in Liaison can ask to use the camera (video calls). You decide per site.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Websites you open in Liaison can ask to use the microphone, and you can dictate messages to the agents.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Liaison turns what you dictate into a message for the agents.</string>
+	<key>NSDesktopFolderUsageDescription</key>
+	<string>Liaison shows the screenshots you take in a card, so you can copy them or send them to an agent.</string>
+	<!-- .html files from Finder or other apps open in a new tab (LocalFileOpen); Alternate, so
+	 the person's default browser choice decides. -->
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>HTML document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.html</string>
+				<string>public.xhtml</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>SVG image</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.svg-image</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Web archive</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.apple.webarchive</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>Web site URL</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>http</string>
+				<string>https</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>Liaison link</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>$(LIA_URL_SCHEME)</string>
+			</array>
+		</dict>
+	</array>
+	<!-- Sparkle: where updates are announced, and the public half of the EdDSA key that signs them.
+	 Both come from build settings so a dev build carries none and never asks to update. -->
+	<!-- the scheme above, read by the app (AppleSignIn.callbackScheme): liaison, or liaison-dev for a local build -->
+	<key>LiaURLScheme</key>
+	<string>$(LIA_URL_SCHEME)</string>
+	<key>SUFeedURL</key>
+	<string>$(LIA_SPARKLE_FEED)</string>
+	<key>SUPublicEDKey</key>
+	<string>$(LIA_SPARKLE_PUBLIC_KEY)</string>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>INSendMessageIntent</string>
+	</array>
+</dict>
+</plist>

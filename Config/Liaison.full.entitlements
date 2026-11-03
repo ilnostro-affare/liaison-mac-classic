@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Used only when a Developer ID provisioning profile for com.liaisone.mac is found (scripts/build-local.sh).
+	 The script keeps the keys the profile allows and drops the rest, so a capability not enabled on
+	 developer.apple.com never makes the app refuse to launch. Without a profile: Liaison.entitlements. -->
+	<key>com.apple.security.device.audio-input</key>
+	<true/>
+	<key>com.apple.security.device.camera</key>
+	<true/>
+	<!-- No com.apple.developer.applesignin: Apple does not give Sign in with Apple to Developer ID apps (Supported
+	 capabilities (macOS)); the app signs in with Apple through the web flow (a Services ID) instead. -->
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>webcredentials:liaisone.com</string>
+	</array>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.com.liaisone.mac</string>
+	</array>
+	<!-- 0.2.11: the notes key in iCloud Keychain (NotesKeyring). Xcode expands $(AppIdentifierPrefix) to
+	 "XXXXXXXXXX."; a Developer ID profile allows "XXXXXXXXXX.*" without any extra checkbox. Left out by
+	 build-local.sh when the profile does not list keychain-access-groups. -->
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)com.liaisone.mac</string>
+	</array>
+	<key>com.apple.developer.usernotifications.time-sensitive</key>
+	<true/>
+	<key>com.apple.developer.usernotifications.communication</key>
+	<true/>
+	<key>com.apple.developer.aps-environment</key>
+	<string>production</string>
+</dict>
+</plist>
