@@ -3,11 +3,8 @@ import SwiftUI
 import AppKit
 #endif
 
-/// Hosts and design tokens. Tokens are the site's own (`shell.build2.css` :root and
-/// Root[data-theme="light"], master e708917d), not DESIGN_TOKENS.md, which is stale
-/// (Inter → Nunito, sidebar 272 → 292).
+/// Hosts and design tokens, matched to the web client.
 enum AppConfig {
-    // .io is deleted. Only .com.
     static let memberstackClient = "https://client.memberstack.com"
     static let memberstackPublicKey = "pk_REPLACE_WITH_MEMBERSTACK_PUBLIC_KEY"   // public by design, same key the website ships
     static let mcpBase = "https://mcp.liaisone.com"

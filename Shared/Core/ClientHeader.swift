@@ -6,7 +6,7 @@ import FoundationNetworking   // URLRequest on Linux (the Core tests)
 /// (server the web repo, docs/CLIENTS.md): every request to our hosts says which app sent it, so the
 /// admin can show who runs the Mac app and on which version:
 /// X-Lia-Client: mac/0.2.10 (202610190001; macOS 26.0; arm64; release)
-/// Liaison Dev (a plain `build-local.sh` build: URL scheme liaison-dev, no update feed) says `dev`. Nothing personal is
+/// Liaison Dev (a plain local build: URL scheme liaison-dev, no update feed) says `dev`. Nothing personal is
 /// ever in it: no name, email, host name or device id. Only liaisone.com and its subdomains get it (OurHost), never
 /// Memberstack, Stripe, Meta or a page in the browser. The server's parser (lia-client.js) is strict: each field is
 /// cut to the same character set and length here, and a field we cannot know is "-".

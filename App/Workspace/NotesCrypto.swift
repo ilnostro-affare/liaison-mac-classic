@@ -59,7 +59,7 @@ enum NotesKeyring {
     /// Saves the key, best place first, -> where it went (nil when no keychain took it):
     /// 1. iCloud Keychain: a synchronizable item in the data-protection keychain. Needs a keychain access group, which
     /// the signed app has when it carries `keychain-access-groups` or `com.apple.application-identifier` (both come
-    /// with the Developer ID provisioning profile, scripts/build-local.sh); without one macOS answers
+    /// with the Developer ID provisioning profile, the release script (not included)); without one macOS answers
     /// errSecMissingEntitlement (-34018).
     /// 2. The data-protection keychain on this Mac only (same entitlement; an account without iCloud Keychain sync).
     /// 3. The login keychain (an ad-hoc or profile-less build): this Mac only.

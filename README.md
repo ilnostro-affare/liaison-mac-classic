@@ -6,7 +6,7 @@ Liaison for Mac 0.2.x was a native macOS workspace built around a real browser, 
 beside the person: **Lia** (research and the open web), **Met** (Meta Ads), **Dev** (sites and code) and **Crea**
 (creatives). The person signs in to Meta, Google or anything else in the app's own browser. The agents read the page,
 prepare changes and ask before anything reaches Meta: every write to an ad account is a plan with a diff, applied
-only after an explicit click on **Yes**.
+only after a click on **Yes**. In Auto one Yes covers the rest of that task; turning anything on always asks again.
 
 The 0.2.x line shipped 0.2.0 to 0.2.13 through Sparkle between 10 and 23 October 2026. 0.2.14 was the last
 build of the line and was never released. After that the product became a messenger with the agents (0.3.0),
@@ -52,7 +52,7 @@ flowchart LR
     Conv -- "turns, SSE gate/ask events" --> API
     Conv --> Gate
     Gate -- "click Yes only" --> API
-    BM --> WebGate
+    AW --> AB["AgentBridge / WebAgent"] --> WebGate
     WS --> Notes --> NotesSync
     Notes --> Crypto
     Notes -- "ciphertext only" --> API
@@ -75,8 +75,10 @@ flowchart LR
   Password, card and code fields are never typed into.
 - **Writes to Meta.** `Shared/Core/Modes.swift` has `Gate`, `GateAnswer` and `Gate.digitAnswer`. The backend
   stops a turn on a prepared change. The app shows the diff (`GateCard` in `App/Workspace/ConversationSheet.swift`)
-  and applies only on a click or on Return on the focused button. A typed digit can answer **No** but never
-  **Yes**. `Tests/ModesTests.swift` checks this for every mode.
+  and applies only on a click (`GateBar` → `TeamChatModel.answer` → `apply` in `App/Workspace/TeamChatModel.swift`).
+  In Auto one Yes covers the rest of that task (`task_yes`); turning anything on (`final`) always asks again. In
+  this build a typed digit answers nothing (`onDigit` returns false); `Gate.digitAnswer` is the rule for any surface
+  that maps digits, and `Tests/ModesTests.swift` proves for every mode that it can never return a write.
 - **Notes, end-to-end encrypted.** `App/Workspace/WindowNotes.swift` is the notes panel.
   `App/Workspace/NotesSyncEngine.swift` handles pull, push and conflicts. `Shared/Core/NotesSync.swift` is the pure
   part: the envelope, the recovery key and the merge rules. `App/Workspace/NotesCrypto.swift` holds the CryptoKit
@@ -109,7 +111,7 @@ flowchart LR
    CRC-16. The Keychain item is updated in place and never deleted and re-added, because deleting a synchronizable
    item removes it on every Mac. See `NotesKeyring.save` in `App/Workspace/NotesCrypto.swift`.
 5. **Updates that never interrupt work.** Sparkle downloads silently. `UpdatePolicy.decide` installs only at a
-   quiet moment: just launched, just woke, back after 30 minutes, or idle for 15. It also waits while nothing would
+   quiet moment: just launched, just woke, back after 30 minutes, or idle for 15. It installs only when nothing would
    be lost (`AppBusy`: no agent run, no pending Yes, no unsent text). Otherwise the update waits behind a banner.
    Dev builds carry no feed and no key, so they never check (`Updates.configured`).
 
@@ -146,7 +148,9 @@ Left out:
 - the release script, internal docs and the landing site
 - screenshots: the source keeps no 0.2.x UI screenshots, only mockups of the later messenger
 
-Some included files therefore refer to types that are not here.
+Some included files therefore refer to types that are not here. Comments name the web client's functions
+(`ai.js`, `shell.js`, `settings.js`) and the backend workers (`lia-agents`, `meta-mcp`) that the Mac code was
+ported from or talks to; that code is not here.
 
 The app builds in Xcode on macOS once signing is set up (a Developer ID team in `Config/Local.xcconfig`, plus a
 provisioning profile for iCloud Keychain). This repository is not compiled in CI. Identifiers were replaced with

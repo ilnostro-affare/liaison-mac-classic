@@ -37,10 +37,10 @@ targets:
         PRODUCT_NAME: Liaison
         PRODUCT_BUNDLE_IDENTIFIER: com.liaisone.mac   # Separate from iOS com.liaisone.app
         GENERATE_INFOPLIST_FILE: YES
-        # camera / microphone under the hardened runtime; build-local.sh sets LIA_ENTITLEMENTS and LIA_PROFILE when a
+        # camera / microphone under the hardened runtime; the release script (not included) sets LIA_ENTITLEMENTS and LIA_PROFILE when a
         # Developer ID profile is found (Sign in with Apple, App Group...). Variables, not command-line overrides of
         # CODE_SIGN_ENTITLEMENTS / PROVISIONING_PROFILE_SPECIFIER, which would also land on Sparkle's targets.
-        LIA_URL_SCHEME: liaison   # build-local.sh: liaison-dev for a plain build (sign-in comes back to Liaison Dev)
+        LIA_URL_SCHEME: liaison   # the release script (not included): liaison-dev for a plain build (sign-in comes back to Liaison Dev)
         LIA_ENTITLEMENTS: Config/Liaison.entitlements
         CODE_SIGN_ENTITLEMENTS: $(LIA_ENTITLEMENTS)
         LIA_PROFILE: ""

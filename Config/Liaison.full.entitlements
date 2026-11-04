@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<!-- Used only when a Developer ID provisioning profile for com.liaisone.mac is found (scripts/build-local.sh).
+	<!-- Used only when a Developer ID provisioning profile for com.liaisone.mac is found (the release script (not included)).
 	 The script keeps the keys the profile allows and drops the rest, so a capability not enabled on
 	 developer.apple.com never makes the app refuse to launch. Without a profile: Liaison.entitlements. -->
 	<key>com.apple.security.device.audio-input</key>
@@ -21,7 +21,7 @@
 	</array>
 	<!-- 0.2.11: the notes key in iCloud Keychain (NotesKeyring). Xcode expands $(AppIdentifierPrefix) to
 	 "XXXXXXXXXX."; a Developer ID profile allows "XXXXXXXXXX.*" without any extra checkbox. Left out by
-	 build-local.sh when the profile does not list keychain-access-groups. -->
+	 the release script (not included) when the profile does not list keychain-access-groups. -->
 	<key>keychain-access-groups</key>
 	<array>
 		<string>$(AppIdentifierPrefix)com.liaisone.mac</string>

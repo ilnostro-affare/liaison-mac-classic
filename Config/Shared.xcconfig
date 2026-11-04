@@ -11,7 +11,7 @@ LIA_SPARKLE_PUBLIC_KEY =
 // The SwiftUI modifiers (.translationPresentation, .translationTask) come from the cross-import overlay
 // _Translation_SwiftUI, a framework of its own that the compiler would auto-link as a hard dependency too, so it is
 // treated the same way. Linker flags go to the linker (OTHER_LDFLAGS); the autolink switch is a compiler flag
-// (OTHER_SWIFT_FLAGS). scripts/build-local.sh checks the built binary: no non-weak Translation load.
+// (OTHER_SWIFT_FLAGS). the release script (not included) checks the built binary: no non-weak Translation load.
 OTHER_LDFLAGS = $(inherited) -weak_framework Translation -weak_framework _Translation_SwiftUI
 OTHER_SWIFT_FLAGS = $(inherited) -Xfrontend -disable-autolink-framework -Xfrontend Translation -Xfrontend -disable-autolink-framework -Xfrontend _Translation_SwiftUI
 

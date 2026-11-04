@@ -276,8 +276,8 @@ final class InlineChipsTests: XCTestCase {
     private let ents = ["120000000000001": ChatEntity(name: "Kids camp", kind: "campaign")]
 
     func testWrappedLinkBecomesChipAndSwallowsBrackets() {
-        XCTAssertEqual(InlineChips.segments("Teachers listed (" + "[sacantomusica.com](https://www.sacantomusica.com/x?utm_source=openai)).", ents: [:]),
-                       [.text("Teachers listed "), .link(label: "sacantomusica.com", url: "https://www.sacantomusica.com/x", host: "sacantomusica.com"), .text(".")])
+        XCTAssertEqual(InlineChips.segments("Teachers listed (" + "[example-music.com](https://www.example-music.com/x?utm_source=openai)).", ents: [:]),
+                       [.text("Teachers listed "), .link(label: "example-music.com", url: "https://www.example-music.com/x", host: "example-music.com"), .text(".")])
     }
 
     func testLoneBracketStays() {
